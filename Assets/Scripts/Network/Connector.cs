@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace ServerCore
 {
@@ -45,7 +46,7 @@ namespace ServerCore
                 session.OnConnected(args.RemoteEndPoint);
             }
             else {
-                Console.WriteLine($"OnConnectedCompleted Failed : {args.SocketError}");
+                Debug.Log($"OnConnectedCompleted Failed : {args.SocketError}");
             }
         }
     }

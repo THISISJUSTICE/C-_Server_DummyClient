@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DummyClient;
 using ServerCore;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 
 class PacketHandler
@@ -17,9 +15,13 @@ class PacketHandler
         S_Chat chatPacket = packet as S_Chat;
         ServerSession serverSession = session as ServerSession;
 
-        if(chatPacket.playerID == 1)
-            Debug.Log(chatPacket.chat);
-        
+        Debug.Log(chatPacket.chat);
+
+        GameObject go = GameObject.Find("Player");
+        if(go == null){
+            Debug.Log("Player Not found");
+        }
+        else Debug.Log("Player found");
     }
 
 }

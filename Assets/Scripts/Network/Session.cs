@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace ServerCore
 {
@@ -132,7 +133,7 @@ namespace ServerCore
                 }
             }
             catch (Exception e) {
-                Console.WriteLine($"Register Send Failed {e}");
+                Debug.Log($"Register Send Failed {e}");
             }
         }
 
@@ -156,7 +157,7 @@ namespace ServerCore
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine($"OnSendCompleted Failed: {e}");
+                        Debug.Log($"OnSendCompleted Failed: {e}");
                     }
                 }
                 else
@@ -182,7 +183,7 @@ namespace ServerCore
                 }
             }
             catch (Exception e) {
-                Console.WriteLine($"RegisterRecv Failed {e}");
+                Debug.Log($"RegisterRecv Failed {e}");
             }
             
         }
@@ -194,7 +195,7 @@ namespace ServerCore
                 {
                     //Write 커서 이동
                     if (!recvBuffer.OnWrite(args.BytesTransferred)) {
-                        Console.WriteLine($"OnWrite Failed");
+                        Debug.Log($"OnWrite Failed");
                         DisConnect();
                         return;
                     }
@@ -202,14 +203,14 @@ namespace ServerCore
                     //컨텐츠 쪽으로 데이터를 송신하고 얼마나 처리했는지 수신
                     int processLen = OnRecv(recvBuffer.ReadSegment);
                     if (processLen < 0 || recvBuffer.DataSize < processLen) {
-                        Console.WriteLine($"OnRecv Failed");
+                        Debug.Log($"OnRecv Failed");
                         DisConnect();
                         return;
                     }
 
                     //Read 커서 이동
                     if (!recvBuffer.OnRead(processLen)) {
-                        Console.WriteLine($"OnRead Failed");
+                        Debug.Log($"OnRead Failed");
                         DisConnect();
                         return;
                     }
@@ -217,7 +218,7 @@ namespace ServerCore
                     RegisterRecv();
                 }
                 catch(Exception e) {
-                    Console.WriteLine($"OnRecvCompleted Failed: {e}");
+                    Debug.Log($"OnRecvCompleted Failed: {e}");
                 }
                 
             }
