@@ -10,6 +10,10 @@ public class NetworkManager : MonoBehaviour
 {
     ServerSession session_ = new ServerSession();
 
+    public void Send(ArraySegment<byte> sendBuff){
+        session_.Send(sendBuff);
+    }
+
     private void Start() {
         string host = Dns.GetHostName();
         IPHostEntry ipHost = Dns.GetHostEntry(host);
@@ -19,26 +23,15 @@ public class NetworkManager : MonoBehaviour
         Connector connector = new Connector();
 
         connector.Connect(endPoint, () => { return session_; }, 1);
-        StartCoroutine(CoSendPacket());
     }
 
     private void Update() {
-
-        IPacket packet = PacketQueue.Inst.Pop();
-        if(packet != null){
+        List<IPacket> list = PacketQueue.Inst.PopAll();
+        foreach(IPacket packet in list){
             PacketManager.Inst.HandlePacket(session_, packet);
         }
+        
     }
 
-    IEnumerator CoSendPacket(){
-        while(true){
-            yield return new WaitForSeconds(3);
-
-            C_Chat chatPacket = new C_Chat();
-            chatPacket.chat = "Hello Unity!";
-            ArraySegment<byte> segment = chatPacket.Write();
-
-            session_.Send(segment);
-        }
-    }
+    
 }

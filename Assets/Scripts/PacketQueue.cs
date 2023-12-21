@@ -10,9 +10,9 @@ public class PacketQueue
     Queue<IPacket> packetQueue_ = new Queue<IPacket>();
     object lock_ = new object();
 
-    public void Push(IPacket pakcet){
+    public void Push(IPacket packet){
         lock(lock_){
-            packetQueue_.Enqueue(pakcet);
+            packetQueue_.Enqueue(packet);
 
         }
     }
@@ -24,4 +24,17 @@ public class PacketQueue
         }
 
     }
+
+    public List<IPacket> PopAll(){
+        List<IPacket> list = new List<IPacket>();
+
+        lock(lock_){
+            while(packetQueue_.Count>0){
+                list.Add(packetQueue_.Dequeue());
+            }
+        }
+
+        return list;
+    }
+
 }
